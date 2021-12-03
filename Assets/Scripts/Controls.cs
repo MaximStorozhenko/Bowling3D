@@ -21,9 +21,9 @@ public class Controls : MonoBehaviour
     private Image ForceValue; // ForceIndicator - image
     private float force_factor = 40000f;
 
-    private int count_set;
+    //private int count_set;
     private int count_shot;
-    private int count_try;
+    //private int count_try;
     private int count_kegels_down;
 
     void Start()
@@ -44,15 +44,13 @@ public class Controls : MonoBehaviour
         camera_start_pos = main_camera.transform.position;
         camera_offset = main_camera.transform.position - ball.transform.position;
 
-        count_set = 0;
         count_shot = 0;
-        count_try = 0;
         count_kegels_down = 0;
     }
 
     void Update()
     {
-        count_set = (int) Math.Round((double)count_shot / 2);
+        //count_set = (int) Math.Round((double)count_shot / 2);
 
         #region управление шаром
 
@@ -84,7 +82,7 @@ public class Controls : MonoBehaviour
                 {
                     //Debug.Log(kegel.name + " " + kegel.transform.position.y + " " + (kegel.transform.position.y > 0.1 ? "Down" : "Up"));
 
-                    if(kegel.transform.position.y > 0.1)
+                    if(kegel.transform.position.y > 0.1 || kegel.transform.position.y < - 0.1)
                     {
                         // кегля лежит - убираем ее
                         kegel.SetActive(false);
@@ -92,12 +90,19 @@ public class Controls : MonoBehaviour
                         count_kegels_down++;
                     }
 
-                    Debug.Log("shot - " + count_shot + "; set - (" + Math.Round((double)count_shot / 2) + ") " + count_set + "; k_down - " + count_kegels_down);
+                    //Debug.Log("shot - " + count_shot + "; set - (" + Math.Round((double)count_shot / 2) + ") " + count_set + "; k_down - " + count_kegels_down);
                 }
 
                 // ЗАДАНИЕ: подсчет статистики:
                 // номер попытки - сбито - осталось - *время
                 // на первом этапе выводить в консоль, потом на экран
+
+                Debug.Log("Номер попытки: " + count_shot + ". Сбито: " + count_kegels_down + ". Осталось: " + (10 - count_kegels_down));
+
+                if(count_kegels_down >= 10)
+                {
+                    Debug.Log("Все кегли сбиты. Количество ударов: " + count_shot);
+                }
             }
         }
 
